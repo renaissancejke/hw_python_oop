@@ -51,14 +51,18 @@ class Training:
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
-        raise NotImplementedError()
+        raise NotImplementedError('Error')
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
 
-        return InfoMessage(self.__class__.__name__, self.duration,
-                           self.get_distance(),
-                           self.get_mean_speed(), self.get_spent_calories())
+        return InfoMessage(
+            type(self).__name__,
+            self.duration,
+            self.get_distance(),
+            self.get_mean_speed(),
+            self.get_spent_calories(),
+        )
 
 
 class Running(Training):
@@ -131,7 +135,7 @@ class Swimming(Training):
         return spent_calories_swimming
 
 
-def read_package(workout_type: str, data: list) -> Training:
+def read_package(workout_type: str, data: list[int]) -> Training:
     """Прочитать данные полученные от датчиков."""
     training_type: dict[str, Type[Training]] = {'SWM': Swimming,
                                                 'RUN': Running,
@@ -139,8 +143,7 @@ def read_package(workout_type: str, data: list) -> Training:
                                                 }
     if workout_type not in training_type:
         raise ValueError('Wrong workout type')
-    training_class: Training = training_type[workout_type](*data)
-    return training_class
+    return training_type[workout_type](*data)
 
 
 def main(training: Training) -> None:
@@ -152,7 +155,7 @@ def main(training: Training) -> None:
 
 
 if __name__ == '__main__':
-    packages: list[tuple(str, list[int])] = [
+    packages: list[tuple[str, list[int]]] = [
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
