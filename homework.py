@@ -109,8 +109,8 @@ class Swimming(Training):
     """Тренировка: плавание."""
 
     LEN_STEP: float = 1.38
-    swm_param1: float = 1.1
-    swm_param2: int = 2
+    SWM_PARAM1: float = 1.1
+    SWM_PARAM2: int = 2
 
     def __init__(self,
                  action: int,
@@ -129,8 +129,8 @@ class Swimming(Training):
         return mean_speed
 
     def get_spent_calories(self):
-        spent_calories_swimming = ((self.get_mean_speed() + self.swm_param1)
-                                   * self.swm_param2 * self.weight
+        spent_calories_swimming = ((self.get_mean_speed() + self.SWM_PARAM1)
+                                   * self.SWM_PARAM2 * self.weight
                                    * self.duration)
         return spent_calories_swimming
 
